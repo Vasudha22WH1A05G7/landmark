@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andhra Pradesh Tourism</title>
-    <link rel="stylesheet" href="style.css">
+    <title>LandMark Lens</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,11 +15,11 @@
     <header>
         <div class="container header-container">
             <nav>
-                <a href="#">Home</a>
-                <a href="hiw.html">Instructions</a>
-                <a href="aboutus.html">About Us</a>
-                <a href="contactus.html">Contact</a>
-                <a href="reg.html" class="login-btn">Login</a>
+                <a href="/">Prompt</a>
+                <a href="/hiw">Instructions</a>
+                <a href="/aboutus">About Us</a>
+                <a href="/contactus">Contact</a>
+                <a href="/reg" class="login-btn">Login</a>
             </nav>
         </div>
     </header>
@@ -27,17 +27,17 @@
     <div id="heroCarousel" class="carousel slide hero-section" data-bs-ride="carousel" data-bs-interval="2000"> <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="scroll-image">
-                    <img src="back1.jpg" class="d-block w-100" alt="Beach">
+                    <img src="{{ url_for('static', filename='back1.jpg') }}" class="d-block w-100" alt="Beach">
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="scroll-image">
-                    <img src="back2.jpg" class="d-block w-100" alt="Mountains">
+                    <img src="{{ url_for('static', filename='back2.jpg') }}" class="d-block w-100" alt="Beach">
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="scroll-image">
-                    <img src="back3.jpg" class="d-block w-100" alt="Landscape">
+                    <img src="{{ url_for('static', filename='back3.jpg') }}" class="d-block w-100" alt="Beach">
                 </div>
             </div>
         </div>
@@ -49,23 +49,15 @@
                 <div class="footer-column">
                     <h4>Information</h4>
                     <ul>
-                        <li><a href="aboutus.html">About Us</a></li>
-                        <li><a href="contactus.html">Contact Us</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="TandC.html">Terms of Service</a></li>
+                        <li><a href="/aboutus">About Us</a></li>
+                        <li><a href="/contactus">Contact Us</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h4>Connect With Us</h4>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
+                
             </div>
-            <p class="copyright">&copy; 2024 Andhra Pradesh Tourism. All Rights Reserved.</p>
+            <p class="copyright">&copy; 2025 Landmark Lens. All Rights Reserved.</p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

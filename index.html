@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landmark Analyzer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Correct FontAwesome CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f9;
+            position: relative;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="file"], input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #preview {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            display: none;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Home Icon Styling */
+        .home-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .home-icon:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Icon -->
+    <a href="{{ url_for('home') }}" class="home-icon">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <div class="container">
+        <h1>Upload a Tourist Place Image</h1>
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" name="image" id="image" accept="image/*" required>
+            <button type="submit">Upload Image</button>
+        </form>
+        <img id="preview" src="" alt="Image Preview" />
+
+        <h2>Ask a Question About the Landmark</h2>
+        <input type="text" id="question" placeholder="Type your question here..." />
+        <button id="ask-btn">Ask</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        let imageUploaded = false;
+
+        $(document).ready(function () {
+            $("#image").change(function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#preview").attr("src", e.target.result).show();
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $("#upload-form").submit(function (event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: "/upload",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.error) {
+                            $("#result").text("Error: " + response.error);
+                        } else {
+                            $("#result").text("Image uploaded successfully! Now ask a question.");
+                            imageUploaded = true;
+                        }
+                    },
+                    error: function () {
+                        $("#result").text("An error occurred while uploading the image.");
+                    }
+                });
+            });
+
+            $("#ask-btn").click(function () {
+                if (!imageUploaded) {
+                    $("#result").text("Please upload an image first.");
+                    return;
+                }
+
+                var question = $("#question").val();
+                if (!question) {
+                    $("#result").text("Please enter a question.");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/ask",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ question: question }),
+                    success: function (response) {
+                        if (response.error) {
+                            $("#result").text("Error: " + response.error);
+                        } else {
+                            $("#result").text("Answer: " + response.answer);
+                        }
+                    },
+                    error: function () {
+                        $("#result").text("An error occurred while fetching the answer.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
